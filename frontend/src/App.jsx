@@ -1,19 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import CreateUser from "./pages/CreateUser";
+import EditUser from "./pages/EditUser";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1 className="text-3xl font-bold underline text-blue-600">
-      Hello world!
-    </h1>
-        
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/add" element={<CreateUser/>}/>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+  path="/create"
+  element={
+    <ProtectedRoute>
+      <CreateUser />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/edit/:id"
+  element={
+    <ProtectedRoute>
+      <EditUser />
+    </ProtectedRoute>
+  }
+/>
+
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

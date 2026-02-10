@@ -7,12 +7,12 @@ import UserModel from './models/user.model.js';
 async function seedUsers() {
   try {
     const usersToSeed = [
-      // { username: 'superadmin', password: 'super123', role: 'superadmin', created_by: null },
-      // { username: 'admin1', password: 'admin123', role: 'admin', created_by: 1 },
-      // { username: 'admin2', password: 'admin456', role: 'admin', created_by: 1 },
-      // { username: 'user1', password: 'user123', role: 'user', created_by: 2 },
-      // { username: 'user2', password: 'user456', role: 'user', created_by: 2 },
-      // { username: 'Ani', password: 'user456', role: 'user', created_by: null },
+      { username: 'superadmin', password: 'super123', role: 'superadmin', created_by: null },
+      { username: 'admin1', password: 'admin123', role: 'admin', created_by: 1 },
+      { username: 'admin2', password: 'admin456', role: 'admin', created_by: 1 },
+      { username: 'user1', password: 'user123', role: 'user', created_by: 2 },
+      { username: 'user2', password: 'user456', role: 'user', created_by: 2 },
+      { username: 'Ani', password: 'user456', role: 'user', created_by: null },
     ];
 
     for (const user of usersToSeed) {
