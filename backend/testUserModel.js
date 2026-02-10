@@ -1,15 +1,15 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
-import UserModel from './user.model.js';
+import UserModel from './models/user.model.js';
 
 async function testUserModel() {
   try {
     console.log('--- Creating user ---');
     const newUser = await UserModel.create({
-      username: 'Hero',
-      password: '123456',
-      role: 'user',
+      username: 'varun',
+      password: '12345678910',
+      role: 'superadmin',
       created_by: null
     });
     console.log('Created:', newUser);
@@ -19,7 +19,7 @@ async function testUserModel() {
     console.log(users);
 
     console.log('\n--- Finding by username ---');
-    const foundUser = await UserModel.findByUsername('testuser');
+    const foundUser = await UserModel.findByUsername('varun');
     console.log(foundUser);
 
   } catch (error) {
