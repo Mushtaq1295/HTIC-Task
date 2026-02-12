@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 function CreateUser() {
   const [username, setUsername] = useState("");
@@ -22,57 +23,78 @@ function CreateUser() {
         role,
       });
 
-      alert("User created successfully");
+      toast.success("User created successfully");
       navigate("/");
     } catch (error) {
-      alert(error.response?.data?.message || "Error creating user");
+      toast.error(error.response?.data?.message || "Error creating user");
     }
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-green-100 to-green-300">
       <Navbar />
 
-      <div className="flex justify-center mt-10">
+      <div className="flex items-center justify-center py-12">
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md p-6 rounded w-96"
+          className="bg-white shadow-xl rounded-2xl p-8 w-96"
         >
-          <h2 className="text-xl font-bold mb-4 text-center">
-            Create User
-          </h2>
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-green-600">
+              Create New User
+            </h2>
+            <p className="text-gray-500 text-sm">
+              Add a new account to the system
+            </p>
+          </div>
 
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full mb-3 p-2 border rounded"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+          {/* Username */}
+          <div className="mb-4">
+            <label className="text-sm text-gray-600">Username</label>
+            <input
+              type="text"
+              placeholder="Enter username"
+              className="w-full mt-1 p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full mb-3 p-2 border rounded"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          {/* Password */}
+          <div className="mb-4">
+            <label className="text-sm text-gray-600">Password</label>
+            <input
+              type="password"
+              placeholder="Enter password"
+              className="w-full mt-1 p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-          {/* Role selection */}
-          <select
-            className="w-full mb-4 p-2 border rounded"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+          {/* Role Selection */}
+          <div className="mb-6">
+            <label className="text-sm text-gray-600">Role</label>
+            <select
+              className="w-full mt-1 p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              {user.role === "superadmin" && (
+                <option value="admin">Admin</option>
+              )}
+              <option value="user">User</option>
+            </select>
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white p-2.5 rounded-lg font-medium hover:bg-green-700 transition"
           >
-            {user.role === "superadmin" && (
-              <option value="admin">Admin</option>
-            )}
-            <option value="user">User</option>
-          </select>
-
-          <button className="w-full bg-green-600 text-white p-2 rounded">
             Create User
           </button>
         </form>

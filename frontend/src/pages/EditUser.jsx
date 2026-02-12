@@ -3,11 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/axios";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 function EditUser() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user: currentUser } = useAuth();
+  const { user } = useAuth(); // fixed here
 
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("user");
@@ -23,7 +24,7 @@ function EditUser() {
           setRole(foundUser.role);
         }
       } catch (error) {
-        alert("Failed to load user");
+        toast.error("Failed to load user");
       }
     };
 
@@ -39,47 +40,64 @@ function EditUser() {
         role,
       });
 
-      alert("User updated successfully");
+      toast.success("User updated successfully");
       navigate("/");
     } catch (error) {
-      alert(error.response?.data?.message || "Update failed");
+      toast.error(error.response?.data?.message || "Update failed");
     }
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
       <Navbar />
 
-      <div className="flex justify-center mt-10">
+      <div className="flex items-center justify-center py-12">
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md p-6 rounded w-96"
+          className="bg-white shadow-xl rounded-2xl p-8 w-96"
         >
-          <h2 className="text-xl font-bold mb-4 text-center">
-            Edit User
-          </h2>
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-blue-600">
+              Edit User
+            </h2>
+            <p className="text-gray-500 text-sm">
+              Update user details
+            </p>
+          </div>
 
-          <input
-            type="text"
-            className="w-full mb-3 p-2 border rounded"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+          {/* Username */}
+          <div className="mb-4">
+            <label className="text-sm text-gray-600">Username</label>
+            <input
+              type="text"
+              className="w-full mt-1 p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
 
-          {/* Role selection */}
-          <select
-            className="w-full mb-4 p-2 border rounded"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+          {/* Role Selection */}
+          <div className="mb-6">
+            <label className="text-sm text-gray-600">Role</label>
+            <select
+              className="w-full mt-1 p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              {user?.role === "superadmin" && (
+                <option value="admin">Admin</option>
+              )}
+              <option value="user">User</option>
+            </select>
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-2.5 rounded-lg font-medium hover:bg-blue-700 transition"
           >
-            {currentUser.role === "superadmin" && (
-              <option value="admin">Admin</option>
-            )}
-            <option value="user">User</option>
-          </select>
-
-          <button className="w-full bg-blue-600 text-white p-2 rounded">
             Update User
           </button>
         </form>
