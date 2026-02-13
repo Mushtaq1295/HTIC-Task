@@ -16,9 +16,13 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
-    strictPort: true,
-    allowedHosts: [
-      "pseudosensational-katharina-nonnatively.ngrok-free.dev"
-    ]
-  }
+    allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://backend:5000',
+        changeOrigin: true,
+      },
+    },
+  },
 })
+
